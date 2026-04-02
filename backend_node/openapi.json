@@ -1,0 +1,328 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "QuanLyRapChieuPhim API (Node)",
+    "version": "1.0.0",
+    "description": "Backend Express — response dang `{ success, message, data }`. JWT: header `Authorization: Bearer <token>`."
+  },
+  "servers": [{ "url": "http://localhost:5000", "description": "Local dev" }],
+  "tags": [
+    { "name": "Auth" },
+    { "name": "Health" },
+    { "name": "Phim" },
+    { "name": "SuatChieu" },
+    { "name": "GiaVe" },
+    { "name": "DatVe" },
+    { "name": "SuKien" },
+    { "name": "VanHanh" },
+    { "name": "Upload" }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "paths": {
+    "/api/health/db": {
+      "get": {
+        "tags": ["Health"],
+        "summary": "Kiem tra ket noi SQL Server",
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/api/Auth/dang-ky": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Dang ky",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["hoTen", "matKhau"],
+                "properties": {
+                  "email": { "type": "string" },
+                  "soDienThoai": { "type": "string" },
+                  "hoTen": { "type": "string" },
+                  "matKhau": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Thanh cong" }, "400": { "description": "Loi validate" }, "409": { "description": "Trung email/SĐT" } }
+      }
+    },
+    "/api/Auth/dang-nhap": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Dang nhap",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["emailOrSoDienThoai", "matKhau"],
+                "properties": {
+                  "emailOrSoDienThoai": { "type": "string" },
+                  "matKhau": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/api/Auth/quen-mat-khau/gui-otp": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Gui OTP quen mat khau",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": { "type": "string", "nullable": true },
+                  "soDienThoai": { "type": "string", "nullable": true }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/api/Auth/quen-mat-khau/dat-lai": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Dat lai mat khau bang OTP",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": { "type": "string", "nullable": true },
+                  "soDienThoai": { "type": "string", "nullable": true },
+                  "otp": { "type": "string" },
+                  "matKhauMoi": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/api/Phim": {
+      "get": {
+        "tags": ["Phim"],
+        "summary": "Danh sach phim",
+        "responses": { "200": { "description": "OK" } }
+      },
+      "post": {
+        "tags": ["Phim"],
+        "summary": "Tao phim (ADMIN / NHAN_VIEN)",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "type": "object", "additionalProperties": true }
+            }
+          }
+        },
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/api/Phim/hot": {
+      "get": {
+        "tags": ["Phim"],
+        "summary": "Phim hot",
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/api/Phim/{id}": {
+      "get": {
+        "tags": ["Phim"],
+        "summary": "Chi tiet phim",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/api/Phim/{phimId}/gioi-thieu": {
+      "get": {
+        "tags": ["Phim"],
+        "summary": "Gioi thieu phim",
+        "parameters": [{ "name": "phimId", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/api/Phim/{phimId}/trailer": {
+      "get": {
+        "tags": ["Phim"],
+        "summary": "Trailer (URL)",
+        "parameters": [{ "name": "phimId", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": { "200": { "description": "OK" } }
+      },
+      "post": {
+        "tags": ["Phim", "Upload"],
+        "summary": "Upload trailer (ADMIN / NHAN_VIEN)",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "name": "phimId", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": { "file": { "type": "string", "format": "binary" } },
+                "required": ["file"]
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/api/SuatChieu": {
+      "get": {
+        "tags": ["SuatChieu"],
+        "summary": "Lich suat chieu",
+        "responses": { "200": { "description": "OK" } }
+      },
+      "post": {
+        "tags": ["SuatChieu"],
+        "summary": "Tao suat (ADMIN / NHAN_VIEN)",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "type": "object", "additionalProperties": true }
+            }
+          }
+        },
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/api/GiaVe/phim": {
+      "get": {
+        "tags": ["GiaVe"],
+        "summary": "Gia ve theo phim",
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/api/DatVe/so-do-ghe/{suatChieuId}": {
+      "get": {
+        "tags": ["DatVe"],
+        "summary": "So do ghe theo suat",
+        "parameters": [{ "name": "suatChieuId", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/api/DatVe/tao-don": {
+      "post": {
+        "tags": ["DatVe"],
+        "summary": "Tao don dat ve (can JWT)",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "type": "object", "additionalProperties": true }
+            }
+          }
+        },
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/api/DatVe/thanh-toan": {
+      "post": {
+        "tags": ["DatVe"],
+        "summary": "Thanh toan don (can JWT)",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "type": "object", "additionalProperties": true }
+            }
+          }
+        },
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/api/DatVe/don/{donDatVeId}": {
+      "get": {
+        "tags": ["DatVe"],
+        "summary": "Chi tiet don",
+        "parameters": [{ "name": "donDatVeId", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/api/SuKien": {
+      "get": {
+        "tags": ["SuKien"],
+        "summary": "Danh sach su kien / khuyen mai",
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/api/VanHanh/checkin-qr": {
+      "post": {
+        "tags": ["VanHanh"],
+        "summary": "Check-in QR (ADMIN / NHAN_VIEN)",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "type": "object", "additionalProperties": true }
+            }
+          }
+        },
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/api/Upload/poster": {
+      "post": {
+        "tags": ["Upload"],
+        "summary": "Upload poster (ADMIN / NHAN_VIEN)",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": { "file": { "type": "string", "format": "binary" } },
+                "required": ["file"]
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/api/Upload/trailer": {
+      "post": {
+        "tags": ["Upload"],
+        "summary": "Upload file trailer (ADMIN / NHAN_VIEN)",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": { "file": { "type": "string", "format": "binary" } },
+                "required": ["file"]
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "OK" } }
+      }
+    }
+  }
+}

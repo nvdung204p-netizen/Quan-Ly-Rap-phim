@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Env & secrets
+.env
+.env.local
+.env.*.local
+backend_node/.env
+frontend/.env
+
+# Build
+frontend/dist/
+**/dist/
+
+# Logs & OS
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+
+# IDE (optional — bỏ dòng .vscode nếu muốn commit cấu hình debug)
+.idea/
