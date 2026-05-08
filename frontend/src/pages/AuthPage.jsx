@@ -26,6 +26,17 @@ export default function AuthPage({ setToken }) {
     xacNhanMatKhauMoi: ""
   });
 
+  function safeReturnPath(raw) {
+    if (!raw) return null;
+    try {
+      const d = decodeURIComponent(raw);
+      if (d.startsWith("/") && !d.startsWith("//")) return d;
+    } catch {
+      /* ignore */
+    }
+    return null;
+  }
+
   async function onDangNhap() {
     try {
       setError("");
@@ -33,7 +44,8 @@ export default function AuthPage({ setToken }) {
       const data = await api.dangNhap(dn);
       localStorage.setItem("accessToken", data.accessToken);
       setToken(data.accessToken);
-      navigate("/phim");
+      const next = safeReturnPath(searchParams.get("returnUrl"));
+      navigate(next || "/phim");
     } catch (e) {
       setError(e.message);
     }
@@ -56,7 +68,8 @@ export default function AuthPage({ setToken }) {
       });
       localStorage.setItem("accessToken", data.accessToken);
       setToken(data.accessToken);
-      navigate("/phim");
+      const next = safeReturnPath(searchParams.get("returnUrl"));
+      navigate(next || "/phim");
     } catch (e) {
       setError(e.message);
     }

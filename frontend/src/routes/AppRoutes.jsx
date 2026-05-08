@@ -10,11 +10,17 @@ import MovieDetailPage from "../pages/MovieDetailPage";
 import ShowtimesPage from "../pages/ShowtimesPage";
 import BookingPage from "../pages/BookingPage";
 import EventsPage from "../pages/EventsPage";
+import EventDetailPage from "../pages/EventDetailPage";
 import PromotionsPage from "../pages/PromotionsPage";
 import PricesPage from "../pages/PricesPage";
 import ProfilePage from "../pages/ProfilePage";
+import GioiThieuPage from "../pages/GioiThieuPage";
 import AdminPage from "../pages/AdminPage";
 import StaffCheckinPage from "../pages/StaffCheckinPage";
+import StaffHomePage from "../pages/StaffHomePage";
+import StaffPOSPage from "../pages/StaffPOSPage";
+import StaffOrdersPage from "../pages/StaffOrdersPage";
+import StaffLayout from "../layouts/StaffLayout";
 
 export default function AppRoutes() {
   const [token, setToken] = useState(getToken());
@@ -38,19 +44,41 @@ export default function AppRoutes() {
         <Route path="/phim" element={<MoviesPage />} />
         <Route path="/phim/:phimId" element={<MovieDetailPage />} />
         <Route path="/lich-chieu" element={<ShowtimesPage />} />
-        <Route path="/dat-ve" element={<BookingPage />} />
-        <Route path="/su-kien" element={<EventsPage />} />
-        <Route path="/khuyen-mai" element={<PromotionsPage />} />
-        <Route path="/gia-ve" element={<PricesPage />} />
-        <Route path="/profile" element={<RequireAuth user={user}><ProfilePage user={user} /></RequireAuth>} />
         <Route
-          path="/nhan-vien/checkin"
+          path="/dat-ve"
           element={
-            <RequireRoles user={user} roles={["ADMIN", "NHAN_VIEN"]}>
-              <StaffCheckinPage />
-            </RequireRoles>
+            <RequireAuth user={user}>
+              <BookingPage />
+            </RequireAuth>
           }
         />
+        <Route path="/su-kien" element={<EventsPage />} />
+        <Route path="/su-kien/:id" element={<EventDetailPage />} />
+        <Route path="/khuyen-mai" element={<PromotionsPage />} />
+        <Route path="/gia-ve" element={<PricesPage />} />
+        <Route path="/gioi-thieu" element={<GioiThieuPage />} />
+        <Route
+          path="/profile"
+          element={
+            <RequireAuth user={user}>
+              <ProfilePage user={user} setToken={setToken} />
+            </RequireAuth>
+          }
+        />
+      </Route>
+
+      <Route
+        path="/nhan-vien"
+        element={
+          <RequireRoles user={user} roles={["ADMIN", "NHAN_VIEN"]}>
+            <StaffLayout user={user} onLogout={logout} />
+          </RequireRoles>
+        }
+      >
+        <Route index element={<StaffHomePage user={user} />} />
+        <Route path="checkin" element={<StaffCheckinPage />} />
+        <Route path="pos" element={<StaffPOSPage />} />
+        <Route path="don-hang" element={<StaffOrdersPage />} />
       </Route>
 
       <Route
@@ -61,7 +89,7 @@ export default function AppRoutes() {
           </RequireRoles>
         }
       >
-        <Route index element={<AdminPage />} />
+        <Route index element={<AdminPage user={user} />} />
       </Route>
     </Routes>
   );

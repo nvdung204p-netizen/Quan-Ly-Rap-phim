@@ -1,0 +1,70 @@
+/* ===== THE THANH VIEN — MEMBERSHIP CARD ===== */
+.tv-loading{display:flex;justify-content:center;padding:60px}
+.tv-page{max-width:720px;margin:0 auto}
+
+/* Thẻ vật lý */
+.tv-card{border-radius:20px;padding:24px;color:#fff;position:relative;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.5);margin-bottom:28px;min-height:200px}
+.tv-card::before{content:"";position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:rgba(255,255,255,.05);border-radius:50%}
+.tv-card::after{content:"";position:absolute;bottom:-60px;left:-20px;width:160px;height:160px;background:rgba(255,255,255,.04);border-radius:50%}
+.tv-card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px}
+.tv-hang-icon{font-size:2rem;line-height:1}
+.tv-hang-label{font-size:13px;font-weight:600;opacity:.8;margin-top:4px}
+.tv-logo{font-size:18px;font-weight:900;letter-spacing:1px;opacity:.9}
+.tv-card-mid{margin-bottom:20px}
+.tv-ma-the{font-size:1.6rem;font-weight:800;letter-spacing:3px;margin-bottom:8px;font-family:monospace}
+.tv-status{display:inline-block;background:rgba(255,255,255,.15);padding:4px 12px;border-radius:20px;font-size:13px;font-weight:600}
+.tv-status--exp{background:rgba(239,68,68,.3)}
+.tv-card-bot{display:flex;gap:24px;flex-wrap:wrap}
+.tv-field span{display:block;font-size:11px;opacity:.7;margin-bottom:3px}
+.tv-field strong{font-size:14px;font-weight:700}
+
+/* Quyền lợi */
+.tv-section-title{font-size:1.1rem;font-weight:700;color:#f1f5f9;margin:0 0 16px}
+.tv-benefits{margin-bottom:28px}
+.tv-benefit-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.tv-benefit-card{display:flex;gap:14px;align-items:flex-start;background:#0f172a;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:16px}
+.tv-benefit-icon{font-size:1.6rem;flex-shrink:0}
+.tv-benefit-card strong{display:block;font-size:14px;color:#f1f5f9;margin-bottom:4px}
+.tv-benefit-card p{font-size:13px;color:#64748b;margin:0}
+
+/* Progress bar */
+.tv-progress-section{background:#0f172a;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:20px}
+.tv-progress-header{display:flex;justify-content:space-between;font-size:14px;color:#94a3b8;margin-bottom:10px}
+.tv-progress-pts{color:#fbbf24;font-weight:700}
+.tv-progress-bar{height:10px;background:#1e293b;border-radius:5px;overflow:hidden;margin-bottom:10px}
+.tv-progress-fill{height:100%;background:linear-gradient(90deg,#6366f1,#fbbf24);border-radius:5px;transition:.5s}
+.tv-progress-hint{font-size:13px;color:#64748b;margin:0}
+
+/* Trang đăng ký */
+.tv-register-page{text-align:center}
+.tv-register-hero{padding:40px 20px 28px}
+.tv-register-icon{font-size:4rem;margin-bottom:12px}
+.tv-register-hero h2{font-size:2rem;font-weight:800;color:#f8fafc;margin:0 0 8px}
+.tv-register-hero p{font-size:16px;color:#64748b;margin:0}
+
+/* Tiers */
+.tv-tiers{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:32px;text-align:left}
+.tv-tier-card{background:#0f172a;border:1.5px solid rgba(255,255,255,.08);border-top:4px solid var(--tc,#64748b);border-radius:14px;padding:20px;transition:.2s}
+.tv-tier-card:hover{transform:translateY(-4px);border-color:var(--tc,#64748b)}
+.tv-tier-icon{font-size:2rem;margin-bottom:8px}
+.tv-tier-name{font-size:14px;font-weight:700;color:#f1f5f9;margin-bottom:4px}
+.tv-tier-pct{font-size:1.2rem;font-weight:800;color:var(--tc,#64748b);margin-bottom:12px}
+.tv-tier-perks{list-style:none;padding:0;margin:0 0 12px;display:flex;flex-direction:column;gap:6px}
+.tv-tier-perks li{font-size:13px;color:#94a3b8}
+.tv-tier-start{background:rgba(99,102,241,.2);color:#a5b4fc;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;display:inline-block}
+.tv-tier-req{background:rgba(100,116,139,.15);color:#64748b;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;display:inline-block}
+
+/* Steps */
+.tv-steps-section{margin-bottom:32px;text-align:left}
+.tv-steps-section h3{font-size:1.1rem;font-weight:700;color:#f1f5f9;margin-bottom:20px;text-align:center}
+.tv-steps{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px}
+.tv-step{background:#0f172a;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:20px;text-align:center}
+.tv-step-num{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;font-size:1.1rem;font-weight:800;display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
+.tv-step strong{display:block;font-size:14px;color:#f1f5f9;margin-bottom:6px}
+.tv-step p{font-size:13px;color:#64748b;margin:0}
+
+/* Nút đăng ký */
+.tv-register-btn{padding:16px 40px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border:none;border-radius:12px;color:#fff;font-size:1.1rem;font-weight:700;cursor:pointer;transition:.2s;box-shadow:0 8px 24px rgba(99,102,241,.4)}
+.tv-register-btn:hover:not(:disabled){transform:translateY(-3px);filter:brightness(1.1)}
+.tv-register-btn:disabled{opacity:.6;cursor:not-allowed}
+.tv-register-note{font-size:13px;color:#475569;margin-top:12px}

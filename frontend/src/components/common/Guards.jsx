@@ -1,7 +1,11 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 
 export function RequireAuth({ user, children }) {
-  if (!user) return <Navigate to="/auth" replace />;
+  const location = useLocation();
+  if (!user) {
+    const returnUrl = encodeURIComponent(`${location.pathname}${location.search || ""}`);
+    return <Navigate to={`/auth?returnUrl=${returnUrl}`} replace />;
+  }
   return children;
 }
 
